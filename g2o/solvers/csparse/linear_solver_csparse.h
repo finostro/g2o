@@ -64,6 +64,8 @@ struct G2O_SOLVER_CSPARSE_API CSparseExt : public cs
   int columnsAllocated;
 };
 
+
+
 /**
  * \brief linear solver which uses CSparse
  */
@@ -123,7 +125,7 @@ class LinearSolverCSparse : public LinearSolverCCS<MatrixType>
       // _x = _b for calling csparse
       if (x != b)
         memcpy(x, b, _ccsA->n * sizeof(number_t));
-      int ok = csparse_extension::cs_cholsolsymb(_ccsA, x, _symbolicDecomposition, _csWorkspace, _csIntWorkspace);
+      int ok = csparse_extension::cs_cholsolsymb(_ccsA, x, _symbolicDecomposition, _csWorkspace, _csIntWorkspace,&_determinant);
       if (! ok) {
         if (_writeDebug) {
           std::cerr << "Cholesky failure, writing debug.txt (Hessian loadable by Octave)" << std::endl;
@@ -231,6 +233,8 @@ class LinearSolverCSparse : public LinearSolverCCS<MatrixType>
     //! write a debug dump of the system matrix if it is not SPD in solve
     virtual bool writeDebug() const { return _writeDebug;}
     virtual void setWriteDebug(bool b) { _writeDebug = b;}
+
+    double _determinant=-1; // Determinant of the Hessian matrix las used in Solve method
 
   protected:
     css* _symbolicDecomposition;

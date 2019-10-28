@@ -110,6 +110,7 @@ void MainWindow::on_btnOptimize_clicked()
   viewer->setUpdateDisplay(true);
   viewer->update();
   _forceStopFlag = false;
+  std::cout << "determinant:   " << viewer->graph->
 }
 
 void MainWindow::on_btnInitialGuess_clicked()

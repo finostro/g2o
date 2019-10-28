@@ -39,8 +39,9 @@ namespace g2o {
    * CSparse: Copyright (c) 2006-2011, Timothy A. Davis.
    */
 G2O_CSPARSE_EXTENSION_API csn* cs_chol_workspace (const cs *A, const css *S, int* cin, number_t* xin);
+G2O_CSPARSE_EXTENSION_API int cs_cholsolsymb(const cs *A, number_t *b, const css* S, number_t* workspace, int* work, double *det);
 G2O_CSPARSE_EXTENSION_API int cs_cholsolsymb(const cs *A, number_t *b, const css* S, number_t* workspace, int* work);
-
+G2O_CSPARSE_EXTENSION_API double squaredDeterminant(csn* numericCholesky);
 } // end namespace
 } // end namespace
 

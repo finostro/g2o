@@ -27,12 +27,36 @@ using namespace std;
 
 namespace g2o {
 namespace csparse_extension {
+/**
+ * Function added to calculate the determinant of a matrix using its cholesky decomposition lower matrix
+ * \paran[in] csn Pointer to numeric Cholesky decomposition already calculated
+ * \return the determinant of LL*
+ */
+double squaredDeterminant(csn* numericCholesky){
+
+	double ans=1;
+	assert(numericCholesky->L->nz==-1);
+
+	for(int c=0;c<numericCholesky->L->n ; c++){
+		ans*=*((double*)numericCholesky->L->p[c]);
+	}
+	return ans*ans;
+}
 
   /**
    * Originally from CSparse, avoid memory re-allocations by giving workspace pointers
    * CSparse: Copyright (c) 2006-2011, Timothy A. Davis.
    */
-  int cs_cholsolsymb(const cs *A, number_t *b, const css* S, number_t* x, int* work)
+
+
+/**
+ * Edit Felipe Inostroza 2019: added optional argument to return the determinant of A.
+ */
+ int cs_cholsolsymb(const cs *A, number_t *b, const css* S, number_t* workspace, int* work){
+	return cs_cholsolsymb(A, b,  S, workspace,  work, NULL);
+}
+
+  int cs_cholsolsymb(const cs *A, number_t *b, const css* S, number_t* x, int* work, double* det )
   {
     csn *N ;
     int n, ok ;
@@ -46,6 +70,9 @@ namespace csparse_extension {
     if (!N) {
       cerr << __PRETTY_FUNCTION__ << ": cholesky failed!" << endl;
       /*assert(0);*/
+    }
+    if(det!=NULL){
+    	*det = squaredDeterminant(N);
     }
     ok = (N != NULL) ;
     if (ok)

@@ -44,7 +44,7 @@ int main(int argc, char** argv)
 
   typedef BlockSolver< BlockSolverTraits<-1, -1> >  SlamBlockSolver;
   typedef LinearSolverCSparse<SlamBlockSolver::PoseMatrixType> SlamLinearSolver;
-
+  SlamLinearSolver * solver;
   {
     auto linearSolver = g2o::make_unique<SlamLinearSolver>();
     linearSolver->setBlockOrdering(false);
@@ -57,7 +57,7 @@ int main(int argc, char** argv)
   {
     auto linearSolver = g2o::make_unique<SlamLinearSolver>();
     linearSolver->setBlockOrdering(false);
-
+    solver = linearSolver.get();
     mw.solverLevenberg  = new OptimizationAlgorithmLevenberg(
       g2o::make_unique<SlamBlockSolver>(std::move(linearSolver))
     );
