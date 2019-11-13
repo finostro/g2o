@@ -34,13 +34,13 @@ namespace csparse_extension {
  */
 double squaredDeterminant(csn* numericCholesky){
 
-	double ans=1;
+	double ans=0;
 	assert(numericCholesky->L->nz==-1);
 
 	for(int c=0;c<numericCholesky->L->n ; c++){
-		ans*=*((double*)numericCholesky->L->p[c]);
+		ans+=std::log(numericCholesky->L->x[numericCholesky->L->p[c]]);
 	}
-	return ans*ans;
+	return 2*ans;
 }
 
   /**
@@ -71,12 +71,13 @@ double squaredDeterminant(csn* numericCholesky){
       cerr << __PRETTY_FUNCTION__ << ": cholesky failed!" << endl;
       /*assert(0);*/
     }
-    if(det!=NULL){
-    	*det = squaredDeterminant(N);
-    }
+
     ok = (N != NULL) ;
     if (ok)
     {
+	if (det != NULL) {
+		*det = squaredDeterminant(N);
+	}
       cs_ipvec (S->pinv, b, x, n) ;   /* x = P*b */
       cs_lsolve (N->L, x) ;           /* x = L\x */
       cs_ltsolve (N->L, x) ;          /* x = L'\x */
