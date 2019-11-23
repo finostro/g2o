@@ -30,17 +30,17 @@ namespace csparse_extension {
 /**
  * Function added to calculate the determinant of a matrix using its cholesky decomposition lower matrix
  * \paran[in] csn Pointer to numeric Cholesky decomposition already calculated
- * \return the determinant of LL*
+ * \return the log of the determinant of LL*
  */
 double squaredDeterminant(csn* numericCholesky){
 
-	double ans=1;
+	double ans=0;
 	assert(numericCholesky->L->nz==-1);
 
 	for(int c=0;c<numericCholesky->L->n ; c++){
-		ans*=*((double*)numericCholesky->L->p[c]);
+		ans+=std::log(numericCholesky->L->x[numericCholesky->L->p[c]]);
 	}
-	return ans*ans;
+	return ans*2;
 }
 
   /**
