@@ -71,12 +71,13 @@ double squaredDeterminant(csn* numericCholesky){
       cerr << __PRETTY_FUNCTION__ << ": cholesky failed!" << endl;
       /*assert(0);*/
     }
-    if(det!=NULL){
-    	*det = squaredDeterminant(N);
-    }
+
     ok = (N != NULL) ;
     if (ok)
     {
+	if (det != NULL) {
+		*det = squaredDeterminant(N);
+	}
       cs_ipvec (S->pinv, b, x, n) ;   /* x = P*b */
       cs_lsolve (N->L, x) ;           /* x = L\x */
       cs_ltsolve (N->L, x) ;          /* x = L'\x */

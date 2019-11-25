@@ -126,6 +126,7 @@ class LinearSolverCSparse : public LinearSolverCCS<MatrixType>
       if (x != b)
         memcpy(x, b, _ccsA->n * sizeof(number_t));
       int ok = csparse_extension::cs_cholsolsymb(_ccsA, x, _symbolicDecomposition, _csWorkspace, _csIntWorkspace,&_determinant);
+
       if (! ok) {
         if (_writeDebug) {
           std::cerr << "Cholesky failure, writing debug.txt (Hessian loadable by Octave)" << std::endl;
