@@ -144,6 +144,8 @@ namespace g2o {
       qmax++;
     } while (rho<0 && qmax < _maxTrialsAfterFailure->value() && ! _optimizer->terminate());
 
+    // get the final  determinantbool ok2 = _solver.solve();
+    _solver.solve();
     if (qmax == _maxTrialsAfterFailure->value() || rho==0 || !g2o_isfinite(_currentLambda))
       return Terminate;
     return OK;
