@@ -18,6 +18,34 @@ if(NOT CMAKE_BUILD_TYPE)
       FORCE)
 endif(NOT CMAKE_BUILD_TYPE)
 
+
+
+# sanitizer
+
+if (USE_SANITIZER STREQUAL "Address")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+    set (CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}  -fsanitize=address")
+elseif (USE_SANITIZER STREQUAL "Thread")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=thread")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread")
+    set (CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}  -fsanitize=thread")
+elseif (USE_SANITIZER STREQUAL "Undefined")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=undefined")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined")
+    set (CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}  -fsanitize=undefined")
+elseif (USE_SANITIZER STREQUAL "Leak")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=leak")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=leak")
+    set (CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}  -fsanitize=leak")
+elseif (USE_SANITIZER STREQUAL "Memory")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=memory")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=memory")
+    set (CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}  -fsanitize=memory")
+else()
+    SET(USE_SANITIZER "disabled" CACHE STRING "set sanitizer type.")
+endif()
+
 # postfix, based on type
 set(CMAKE_DEBUG_POSTFIX "_d" CACHE STRING "postfix applied to debug build of libraries")
 set(CMAKE_RELEASE_POSTFIX "" CACHE STRING "postfix applied to release build of libraries")
