@@ -130,8 +130,8 @@ int main(int argc, char** argv) {
     robot.addSensor(odometrySensor);
     Matrix3d odomInfo = odometrySensor->information();
     odomInfo.setIdentity();
-    odomInfo*=500;
-    odomInfo(2,2)=5000;
+    odomInfo*=50;
+    odomInfo(2,2)=500;
     odometrySensor->setInformation(odomInfo);
     ss << "-odom";
   }
