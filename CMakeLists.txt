@@ -18,7 +18,8 @@ if(NOT CMAKE_BUILD_TYPE)
       FORCE)
 endif(NOT CMAKE_BUILD_TYPE)
 
-
+# choose latest opengl
+set(OpenGL_GL_PREFERENCE GLVND)
 
 # sanitizer
 
@@ -47,10 +48,7 @@ else()
 endif()
 
 
-#set c++ standard to 17 for easier eigen alignment
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # postfix, based on type
 set(CMAKE_DEBUG_POSTFIX "_d" CACHE STRING "postfix applied to debug build of libraries")

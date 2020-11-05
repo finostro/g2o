@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
 
   arg.parseArgs(argc, argv);
 
-  std::mt19937 generator;
+  std::mt19937 generator(std::time(0));
   OptimizableGraph graph;
   World world(&graph);
   for (int i=0; i<nlandmarks; i++){

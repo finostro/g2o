@@ -48,6 +48,8 @@ int main(int argc, char** argv) {
   bool hasPointBearingSensor;
   bool hasCompass;
   bool hasGPS;
+  
+  double odomInfoX = 50;
 
   bool hasSegmentSensor;
   int nSegments;
@@ -65,6 +67,7 @@ int main(int argc, char** argv) {
   arg.param("simSteps", simSteps, 100, "number of simulation steps");
   arg.param("worldSize", worldSize, 25.0, "size of the world");
   arg.param("hasOdom",        hasOdom, false,  "the robot has an odometry" );
+  arg.param("odomInfo",        odomInfoX, false,  "the odometry information" );
   arg.param("hasPointSensor", hasPointSensor, false, "the robot has a point sensor" );
   arg.param("hasPointBearingSensor", hasPointBearingSensor, false, "the robot has a point bearing sensor" );
   arg.param("hasPoseSensor",  hasPoseSensor, false,  "the robot has a pose sensor" );
@@ -75,8 +78,12 @@ int main(int argc, char** argv) {
 
 
   arg.parseArgs(argc, argv);
-
-  std::mt19937 generator;
+  static std::random_device rd; 
+  unsigned int seed = rd();
+  std::mt19937 generator(seed);
+  
+  cerr << "seed: " << seed << endl;
+  
   OptimizableGraph graph;
   World world(&graph);
   for (int i=0; i<nlandmarks; i++){
@@ -130,8 +137,8 @@ int main(int argc, char** argv) {
     robot.addSensor(odometrySensor);
     Matrix3d odomInfo = odometrySensor->information();
     odomInfo.setIdentity();
-    odomInfo*=50;
-    odomInfo(2,2)=500;
+    odomInfo*=odomInfoX;
+    odomInfo(2,2)=odomInfoX*10.0;
     odometrySensor->setInformation(odomInfo);
     ss << "-odom";
   }

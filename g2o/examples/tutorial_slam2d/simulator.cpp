@@ -50,6 +50,7 @@ namespace g2o {
     Simulator::Simulator()
     {
       time_t seed = time(0);
+      std::cout << "seed: " <<seed <<"\n";
       Rand::seed_rand(static_cast<unsigned int>(seed));
     }
 
